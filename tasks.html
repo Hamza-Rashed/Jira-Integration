@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasks</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Tasks for <span id="project-name">Project Name</span></h1>
+        <nav>
+            <a href="index.html">Projects</a>
+        </nav>
+    </header>
+    <nav class="breadcrumb">
+        <a href="index.html">Projects</a>
+        <span class="breadcrumb-separator">→</span>
+        <span id="breadcrumb-project-name"></span>
+    </nav>
+    <div class="container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Task Title</th>
+                    <th>Created Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="tasks-table">
+                <!-- Tasks will be loaded here dynamically -->
+            </tbody>
+        </table>
+    </div>
+    <footer>
+        &copy; 2024 Project Archive
+        <section class="footer-docs">
+            <h4>Tasks Page Documentation</h4>
+            <ul>
+                <li><strong>View Button:</strong> View details of the selected task, including description and comments.</li>
+                <li><strong>Update Button:</strong> Update task details in Jira or just in our DB (needs Tricia's confirmation).</li>
+                <li><strong>Delete Button:</strong> Delete the task from Jira or just from our DB (needs Tricia's confirmation).</li>
+            </ul>
+        </section>
+    </footer>
+    
+    <script src="js/script.js"></script>
+    <script>
+        // Simulate fetching tasks based on project ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const projectId = urlParams.get('projectId');
+        const projectName = urlParams.get('projectName') || 'Unknown Project';
+
+        // Example data; replace with dynamic content
+        const tasks = [
+            { id: 1, title: 'Create Agg Spend Report', createdDate: '2022-01-20' },
+            { id: 2, title: 'Fix the Activity Report issue', createdDate: '2022-02-15' }
+        ];
+
+        const tasksTable = document.getElementById('tasks-table');
+        tasks.forEach(task => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${task.title}</td>
+                <td>${task.createdDate}</td>
+                <td>
+                    <a href="task-info.html?taskId=${task.id}&projectName=${encodeURIComponent(projectName)}&taskName=${encodeURIComponent(task.title)}" class="button">View</a>
+                    <button class="button" onclick="updateTask(${task.id})">Update</button>
+                    <button class="button red" onclick="deleteTask(${task.id})">Delete</button>
+                </td>
+            `;
+            tasksTable.appendChild(row);
+        });
+
+        // Set the project name
+        document.getElementById('project-name').textContent = projectName;
+        document.getElementById('breadcrumb-project-name').textContent = projectName;
+
+        function updateTask(id) {
+            alert(`Update Task ID: ${id}`);
+            // Implement update logic
+        }
+
+        function deleteTask(id) {
+            alert(`Delete Task ID: ${id}`);
+            // Implement delete logic
+        }
+    </script>
+</body>
+</html>

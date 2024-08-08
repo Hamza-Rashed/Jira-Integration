@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Info</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Task Information</h1>
+        <nav>
+            <a href="index.html">Projects</a>
+        </nav>
+    </header>
+    <nav class="breadcrumb">
+        <a href="index.html">Projects</a>
+        <span class="breadcrumb-separator">→</span>
+        <a href="#" id="breadcrumb-project-link">Project Name</a>
+        <span class="breadcrumb-separator">→</span>
+        <span id="breadcrumb-task-name">Task Name</span>
+    </nav>
+    <div class="container">
+        <section id="task-info">
+            <!-- Task info will be loaded here dynamically -->
+        </section>
+
+        <section id="comments-section">
+            <h3>Comments</h3>
+            <ul id="comments-list">
+                <!-- Comments will be loaded here dynamically -->
+            </ul>
+        </section>
+    </div>
+    <footer>
+        &copy; 2024 Project Archive
+        <section class="footer-docs">
+            <h4>Task Info Page Documentation</h4>
+            <ul>
+                <li>This page displays the task's title, description, subtickets, status, creator, and comments.</li>
+                <li>Each subtask is linked to its detailed task page.</li>
+                <li>Use the breadcrumb for easy navigation back to the task list or project list.</li>
+            </ul>
+        </section>
+    </footer>
+    
+    <script src="js/script.js"></script>
+    <script>
+        // Simulate fetching task info based on task ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const taskId = urlParams.get('taskId');
+        const projectName = urlParams.get('projectName') || 'Unknown Project';
+        const taskName = urlParams.get('taskName') || 'Unknown Task';
+
+        // Example data; replace with dynamic content
+        const taskInfo = {
+            id: taskId,
+            title: taskName,
+            description: 'This is the detailed description of the task.',
+            subtickets: [
+                { id: 3, name: 'Subtask 1' },
+                { id: 4, name: 'Subtask 2' }
+            ],
+            status: 'In Progress',
+            createdBy: 'Patricia',
+            comments: [
+                { author: 'Patricia Wignall', body: 'Great task!', createdDate: '2022-01-22' },
+                { author: 'Justin James', body: 'Needs some changes.', createdDate: '2022-01-25' }
+            ]
+        };
+
+        // Display task information
+        const taskInfoSection = document.getElementById('task-info');
+        taskInfoSection.innerHTML = `
+            <h2>${taskInfo.title}</h2>
+            <p><strong>Description:</strong> ${taskInfo.description}</p>
+            <p><strong>Status:</strong> ${taskInfo.status}</p>
+            <p><strong>Created By:</strong> ${taskInfo.createdBy}</p>
+            <h4>Subtickets:</h4>
+            <ul>
+                ${taskInfo.subtickets.map(subtask => `<li><a href="task-info.html?taskId=${subtask.id}&projectName=${encodeURIComponent(projectName)}&taskName=${encodeURIComponent(subtask.name)}">${subtask.name}</a></li>`).join('')}
+            </ul>
+        `;
+
+        // Display comments
+        const commentsList = document.getElementById('comments-list');
+        taskInfo.comments.forEach(comment => {
+            const commentItem = document.createElement('li');
+            commentItem.innerHTML = `<strong>${comment.author}</strong> (${comment.createdDate}): ${comment.body}`;
+            commentsList.appendChild(commentItem);
+        });
+
+        // Set the breadcrumb links
+        document.getElementById('breadcrumb-project-link').textContent = projectName;
+        document.getElementById('breadcrumb-project-link').href = `tasks.html?projectId=${taskId}&projectName=${encodeURIComponent(projectName)}`;
+        document.getElementById('breadcrumb-task-name').textContent = taskName;
+    </script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Projects</h1>
+        <nav>
+            <a href="index.html">Projects</a>
+        </nav>
+    </header>
+    <nav class="breadcrumb">
+        <span>Projects</span>
+    </nav>
+    <div class="container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Project Name</th>
+                    <th>Created Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="projects-table">
+                <!-- Projects will be loaded here dynamically -->
+            </tbody>
+        </table>
+    </div>
+    <footer>
+        &copy; 2024 Project Archive
+        <section class="footer-docs">
+            <h4>Projects Page Documentation</h4>
+            <ul>
+                <li><strong>Tasks Button:</strong> Navigate to the tasks page for the selected project.</li>
+                <li><strong>Update Button:</strong> Update project info in Jira or just in our DB (needs Tricia's confirmation).</li>
+                <li><strong>Delete Button:</strong> Delete the project from Jira or just from our DB (needs Tricia's confirmation).</li>
+                <li><strong>Archive Button:</strong> Move the project to the archive in Jira. A mark will be added next to the project name indicating it is archived.</li>
+            </ul>
+        </section>
+    </footer>
+    
+    <script src="js/script.js"></script>
+    <script>
+        // Example data; replace with dynamic content
+        const projects = [
+            { id: 1, name: 'Holistics Project', createdDate: '2022-01-15' },
+            { id: 2, name: 'RDMS Project', createdDate: '2022-03-10' }
+        ];
+
+        const projectsTable = document.getElementById('projects-table');
+        projects.forEach(project => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${project.name}</td>
+                <td>${project.createdDate}</td>
+                <td>
+                    <a href="tasks.html?projectId=${project.id}&projectName=${encodeURIComponent(project.name)}" class="button blue">Tasks</a>
+                    <button class="button" onclick="updateProject(${project.id})">Update</button>
+                    <button class="button red" onclick="deleteProject(${project.id})">Delete</button>
+                    <button class="button gray" onclick="archiveProject(${project.id})">Archive</button>
+                </td>
+            `;
+            projectsTable.appendChild(row);
+        });
+
+        function updateProject(id) {
+            alert(`Update Project ID: ${id}`);
+            // Implement update logic
+        }
+
+        function deleteProject(id) {
+            alert(`Delete Project ID: ${id}`);
+            // Implement delete logic
+        }
+
+        function archiveProject(id) {
+            alert(`Archive Project ID: ${id}`);
+            // Implement archive logic
+        }
+    </script>
+</body>
+</html>
